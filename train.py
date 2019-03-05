@@ -18,7 +18,7 @@ import resnet as RN
 import preresnet as PRN
 import PyramidNet as PYRM
 
-from tensorboard_logger import configure, log_value
+#from tensorboard_logger import configure, log_value
 
 model_names = sorted(name for name in models.__dict__
     if name.islower() and not name.startswith("__")
@@ -70,7 +70,7 @@ parser.add_argument('--alpha', default=300, type=int,
                     help='number of new channel increases per depth (default: 300)')
 parser.add_argument('--no-augment', dest='augment', action='store_false',
                     help='whether to use standard augmentation for CIFAR datasets (default: True)')
-parser.add_argument('--tensorboard',
+parser.add_argument('--tensorboard', default=0,
                     help='Log progress to TensorBoard', action='store_true')
 parser.add_argument('--expname', default='PyramidNet', type=str,
                     help='name of experiment')
