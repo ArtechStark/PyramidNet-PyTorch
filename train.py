@@ -18,7 +18,7 @@ import resnet as RN
 import preresnet as PRN
 import PyramidNet as PYRM
 
-#from tensorboard_logger import configure, log_value
+from tensorboard_logger import configure, log_value
 
 model_names = sorted(name for name in models.__dict__
     if name.islower() and not name.startswith("__")
@@ -70,7 +70,7 @@ parser.add_argument('--alpha', default=300, type=int,
                     help='number of new channel increases per depth (default: 300)')
 parser.add_argument('--no-augment', dest='augment', action='store_false',
                     help='whether to use standard augmentation for CIFAR datasets (default: True)')
-parser.add_argument('--tensorboard', default=0,
+parser.add_argument('--tensorboard', default=1,
                     help='Log progress to TensorBoard', action='store_true')
 parser.add_argument('--expname', default='PyramidNet', type=str,
                     help='name of experiment')
@@ -325,17 +325,17 @@ def validate(val_loader, model, criterion, epoch):
         target = target.cuda(async=True)
 
         # for PyTorch 0.3.x, use volatile=True for preventing memory leakage in evaluation phase:`
-        input_var = torch.autograd.Variable(input, volatile=True)
-        target_var = torch.autograd.Variable(target, volatile=True)
-        output = model(input_var)
-        loss = criterion(output, target_var)
+        # input_var = torch.autograd.Variable(input, volatile=True)
+        # target_var = torch.autograd.Variable(target, volatile=True)
+        # output = model(input_var)
+        # loss = criterion(output, target_var)
 
         # for PyTorch 0.4.x, volatile=True is replaced by with torch.no.grad(), so uncomment the followings:
-        # with torch.no_grad():
-        #     input_var = torch.autograd.Variable(input)
-        #     target_var = torch.autograd.Variable(target)
-        #     output = model(input_var)
-        #     loss = criterion(output, target_var)
+        with torch.no_grad():
+            input_var = torch.autograd.Variable(input)
+            target_var = torch.autograd.Variable(target)
+            output = model(input_var)
+            loss = criterion(output, target_var)
 
         # compute output
         output = model(input_var)
