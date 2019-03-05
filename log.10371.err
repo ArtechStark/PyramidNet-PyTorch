@@ -1,0 +1,4 @@
+train.py:328: UserWarning: volatile was removed and now has no effect. Use `with torch.no_grad():` instead.
+  input_var = torch.autograd.Variable(input, volatile=True)
+train.py:329: UserWarning: volatile was removed and now has no effect. Use `with torch.no_grad():` instead.
+  target_var = torch.autograd.Variable(target, volatile=True)
